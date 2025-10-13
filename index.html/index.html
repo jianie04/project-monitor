@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Project Monitoring System</title>
-  <link rel="stylesheet" href="style.css">
+ <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1>Project Monitoring System</h1>
@@ -31,10 +31,68 @@
     <tbody></tbody>
   </table>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="script.js"></script> <!-- ✅ No folder -->
+</body>
+</html>
 
-  <script src="script.js"></script>
+  <!-- 👇 Paste Step 1 script block here -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, onSnapshot, doc, deleteDoc, updateDoc, orderBy, query } 
+      from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAfWLAoabC5U8vzFQyIOScZFLKPDoZh3cE",
+      authDomain: "project-monitor-f6fb2.firebaseapp.com",
+      projectId: "project-monitor-f6fb2",
+      storageBucket: "project-monitor-f6fb2.firebasestorage.app",
+      messagingSenderId: "789686813125",
+      appId: "1:789686813125:web:d931d3b0ae13e674248bac"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    console.log("✅ Firebase initialized successfully");
+
+    const form = document.getElementById('projectForm');
+    const tableBody = document.querySelector('#projectTable tbody');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const project = {
+        name: document.getElementById('projectName').value,
+        owner: document.getElementById('owner').value,
+        status: document.getElementById('status').value,
+        description: document.getElementById('description').value,
+        createdAt: new Date().toISOString()
+      };
+      await addDoc(collection(db, "projects"), project);
+      form.reset();
+    });
+
+    const q = query(collection(db, "projects"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      tableBody.innerHTML = "";
+      snapshot.forEach((docItem) => {
+        const data = docItem.data();
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${data.name}</td>
+          <td>${data.owner}</td>
+          <td>${data.status}</td>
+          <td>${data.description}</td>
+          <td>
+            <button onclick="deleteProject('${docItem.id}')">Delete</button>
+          </td>`;
+        tableBody.appendChild(row);
+      });
+    });
+
+    window.deleteProject = async (id) => {
+      if (confirm("Delete this project?")) {
+        await deleteDoc(doc(db, "projects", id));
+      }
+    };
+  </script>
 </body>
 </html>

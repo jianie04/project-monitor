@@ -3,7 +3,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAfWLaoabC5U8vzFQyIOScZFLKPDoZh3cE",
   authDomain: "project-monitor-f6fb2.firebaseapp.com",
   projectId: "project-monitor-f6fb2",
-  storageBucket: "project-monitor-f6fb2.appspot.com", // ✅ fixed .app to .appspot.com
+  storageBucket: "project-monitor-f6fb2.firebasestorage.app",
   messagingSenderId: "789686813125",
   appId: "1:789686813125:web:d931d3b0ae13e674248bac"
 };
