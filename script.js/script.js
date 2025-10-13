@@ -1,23 +1,27 @@
-// Replace with your Firebase project config
+// --- Firebase Configuration ---
 const firebaseConfig = {
-  apiKey: "REPLACE_ME",
-  authDomain: "REPLACE_ME.firebaseapp.com",
-  projectId: "REPLACE_ME",
-  storageBucket: "REPLACE_ME.appspot.com",
-  messagingSenderId: "REPLACE_ME",
-  appId: "REPLACE_ME"
+  apiKey: "AIzaSyAfWLaoabC5U8vzFQyIOScZFLKPDoZh3cE",
+  authDomain: "project-monitor-f6fb2.firebaseapp.com",
+  projectId: "project-monitor-f6fb2",
+  storageBucket: "project-monitor-f6fb2.appspot.com", // ✅ fixed .app to .appspot.com
+  messagingSenderId: "789686813125",
+  appId: "1:789686813125:web:d931d3b0ae13e674248bac"
 };
 
-// Initialize Firebase
+// --- Initialize Firebase ---
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+console.log("✅ Firebase initialized:", firebase.apps.length);
+
+// --- DOM elements ---
 const form = document.getElementById('projectForm');
 const tableBody = document.querySelector('#projectTable tbody');
 
-form.addEventListener('submit', async (e) => {
+// --- Default form submit handler ---
+async function defaultSubmit(e) {
   e.preventDefault();
-  
+
   const project = {
     name: document.getElementById('projectName').value,
     owner: document.getElementById('owner').value,
@@ -28,9 +32,11 @@ form.addEventListener('submit', async (e) => {
 
   await db.collection('projects').add(project);
   form.reset();
-});
+}
 
-// Listen for real-time updates
+form.addEventListener('submit', defaultSubmit);
+
+// --- Real-time updates ---
 db.collection('projects').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
   tableBody.innerHTML = "";
   snapshot.forEach(doc => {
@@ -50,14 +56,14 @@ db.collection('projects').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
   });
 });
 
-// Delete
+// --- Delete ---
 async function deleteProject(id) {
   if (confirm("Delete this project?")) {
     await db.collection('projects').doc(id).delete();
   }
 }
 
-// Edit
+// --- Edit ---
 function editProject(id, name, owner, status, description) {
   document.getElementById('projectName').value = name;
   document.getElementById('owner').value = owner;
@@ -74,8 +80,4 @@ function editProject(id, name, owner, status, description) {
     form.reset();
     form.onsubmit = defaultSubmit;
   };
-}
-
-async function defaultSubmit(e) {
-  e.preventDefault();
 }
