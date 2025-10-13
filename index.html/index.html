@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Monitoring System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Project Monitoring System</h1>
+
+  <form id="projectForm">
+    <input type="text" id="projectName" placeholder="Project Name" required>
+    <input type="text" id="owner" placeholder="Owner" required>
+    <input type="text" id="status" placeholder="Status (e.g. Active, Done)" required>
+    <textarea id="description" placeholder="Description"></textarea>
+    <button type="submit">Add Project</button>
+  </form>
+
+  <h2>Project List</h2>
+  <table id="projectTable">
+    <thead>
+      <tr>
+        <th>Project</th>
+        <th>Owner</th>
+        <th>Status</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
