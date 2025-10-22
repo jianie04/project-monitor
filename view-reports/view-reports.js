@@ -80,29 +80,50 @@
   reportsTable.appendChild(row);
 });
 
-
     attachActionEvents();
   }
-
   // =======================================================
   // ✅ ATTACH ACTION BUTTONS
   // =======================================================
   function attachActionEvents() {
-    // Edit
-    document.querySelectorAll(".action-icons button[title='Edit']").forEach(btn => {
-      btn.addEventListener("click", async e => {
-        editReportId = e.target.closest("button").dataset.id;
-        const docSnap = await db.collection("reports").doc(editReportId).get();
-        if (!docSnap.exists) return alert("Report not found!");
-        const r = docSnap.data();
+    // ✏️ Edit Button Function
+document.querySelectorAll(".action-icons button[title='Edit']").forEach(btn => {
+  btn.addEventListener("click", async e => {
+    const button = e.target.closest("button");
+    const id = button.dataset.id;
+    editReportId = id; // ✅ store the ID globally
 
-        reportModalTitle.textContent = "Edit Report";
-        Object.keys(inputs).forEach(key => {
-          inputs[key].value = r[key] || "";
-        });
-        reportModal.classList.add("show");
-      });
-    });
+    try {
+      const docSnap = await db.collection("reports").doc(id).get();
+      if (!docSnap.exists) {
+        alert("Report not found!");
+        return;
+      }
+
+      const r = docSnap.data();
+
+      // ✅ Fill form with report data
+      inputs.reportTitle.value = r.title || "";
+      inputs.dateRequested.value = r.dateRequested || "";
+      inputs.dateReceived.value = r.dateReceived || "";
+      inputs.dateFrom.value = r.dateFrom || "";
+      inputs.dateTo.value = r.dateTo || "";
+      inputs.reportSource.value = r.source || "";
+      inputs.reportStatus.value = r.status || "";
+      inputs.sourceFiles.value = r.sourceFiles || "";
+      inputs.sentThrough.value = r.sentThrough || "";
+      inputs.sentBy.value = r.sentBy || "";
+      inputs.reportFrequency.value = r.frequency || "";
+
+      // ✅ Update modal UI
+      reportModalTitle.textContent = "Edit Report";
+      reportModal.classList.add("show");
+    } catch (err) {
+      console.error("Error fetching report:", err);
+      alert("Failed to load report details.");
+    }
+  });
+});
 
     // Delete
     document.querySelectorAll(".action-icons button[title='Delete']").forEach(btn => {
@@ -117,20 +138,40 @@
     });
 
    // Data QA → open separate page, include department name
+// document.querySelectorAll(".action-icons button[title='Data QA']").forEach(btn => {
+//   btn.addEventListener("click", e => {
+//     const button = e.target.closest("button");
+//     const id = button.dataset.id;
+//     const row = button.closest("tr");
+//     const department = row.querySelector(".department-cell")?.innerText || "All";
+//     window.location.href = `/data-qa/data-qa.html?reportId=${id}&dept=${encodeURIComponent(department)}`;
+//   });
+// });
+
+
+// Data QA → open separate page, include department + report details
 document.querySelectorAll(".action-icons button[title='Data QA']").forEach(btn => {
   btn.addEventListener("click", e => {
     const button = e.target.closest("button");
-    const id = button.dataset.id;
-    
-    // 🔹 Get department name from your table or data
-    // If you already have the department in your table row:
-    const row = button.closest("tr");
-    const department = row.querySelector(".department-cell")?.innerText || "All";
+    const reportId = button.dataset.id;
 
-    // Redirect with both reportId + department in URL
-    window.location.href = `/data-qa/data-qa.html?reportId=${id}&dept=${encodeURIComponent(department)}`;
+    // Get the row
+    const row = button.closest("tr");
+
+    // Replace these selectors with the actual class names of your table cells
+    const deptId = row.querySelector(".dept-id-cell")?.innerText?.trim() || "UnknownDept";
+    const deptName = row.querySelector(".department-cell")?.innerText?.trim() || "Department";
+    const reportDetails = row.querySelector("td:first-child")?.innerText?.trim() || "Untitled Report"; // assuming first column is report title
+
+    // Debug log
+    console.log("Redirecting with:", { reportId, reportDetails, deptId, deptName });
+
+    // Redirect
+    window.location.href = `/dataqa/dataqa.html?reportId=${encodeURIComponent(reportId)}&reportDetails=${encodeURIComponent(reportDetails)}&deptId=${encodeURIComponent(deptId)}&deptName=${encodeURIComponent(deptName)}`;
   });
 });
+
+
 
     // Add Chart
     document.querySelectorAll(".action-icons button[title='Add Chart']").forEach(btn => {

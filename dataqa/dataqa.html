@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Quality Assurance</title>
+  <link rel="stylesheet" href="dataqa.css" />
+</head>
+<body>
+  <header>Data Quality Assurance</header>
+
+  <div class="toolbar">
+    <button id="addReportBtn" class="add-btn">+ Add Report</button>
+  </div>
+
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Status</th>
+        <th>Date Started</th>
+        <th>Missing Data</th>
+        <th>Merge Tables</th>
+        <th>Calculated Fields</th>
+        <th>Validation</th>
+        <th>Data Wrangled</th>
+        <th>Duplicate</th>
+        <th>Typo Errors</th>
+        <th>Check Format</th>
+        <th>Ready for Dashboard</th>
+        <th>Date Completed</th>
+        <th>SQL Publication</th>
+        <th>Cloud Publication</th>
+        <th>Developer</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="dataBody">
+      <tr><td colspan="14" class="no-data">No reports found</td></tr>
+    </tbody>
+  </table>
+
+ <!-- ADD NEW DATA MODAL -->
+<div id="dataModal" class="modal">
+  <div class="modal-content">
+    <span class="close" id="closeModalBtn">&times;</span>
+    <h2>Add New Data</h2>
+
+    <form id="dataForm">
+      <div class="form-grid">
+        <!-- LEFT COLUMN -->
+        <div class="form-column">
+          <label>Data:</label>
+          <input type="text" id="dataName" />
+
+          <label>Status:</label>
+          <select id="status">
+            <option value="">Select Status</option>
+            <option value="New">New</option>
+            <option value="Append">Append</option>
+          </select>
+
+          <label>Date Started:</label>
+          <input type="date" id="dateStarted" />
+
+          <label>Missing Data:</label>
+          <input type="text" id="missingData" />
+
+          <label>Merge Tables:</label>
+          <input type="text" id="mergeTables" />
+
+          <label>Calculated Fields:</label>
+          <input type="text" id="calculatedFields" />
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="form-column">
+          <fieldset class="qa-section">
+            <legend>Data Quality Checks</legend>
+
+            <div class="qa-grid">
+              <div class="qa-item">
+                <span>Data Validation:</span>
+                <label><input type="radio" name="dataValidation" value="Yes" /> Yes</label>
+                <label><input type="radio" name="dataValidation" value="No" /> No</label>
+              </div>
+
+              <div class="qa-item">
+                <span>Data Wrangled:</span>
+                <label><input type="radio" name="dataWrangled" value="Yes" /> Yes</label>
+                <label><input type="radio" name="dataWrangled" value="No" /> No</label>
+              </div>
+
+              <div class="qa-item">
+                <span>Duplicate:</span>
+                <label><input type="radio" name="duplicate" value="Yes" /> Yes</label>
+                <label><input type="radio" name="duplicate" value="No" /> No</label>
+              </div>
+
+              <div class="qa-item">
+                <span>Typo Errors:</span>
+                <label><input type="radio" name="typoErrors" value="Yes" /> Yes</label>
+                <label><input type="radio" name="typoErrors" value="No" /> No</label>
+              </div>
+
+              <div class="qa-item">
+                <span>Check Format:</span>
+                <label><input type="radio" name="checkFormat" value="Yes" /> Yes</label>
+                <label><input type="radio" name="checkFormat" value="No" /> No</label>
+              </div>
+
+              <div class="qa-item">
+                <span>Ready for Dashboard:</span>
+                <label><input type="radio" name="readyForDashboard" value="Yes" /> Yes</label>
+                <label><input type="radio" name="readyForDashboard" value="No" /> No</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <label>Date Completed:</label>
+          <input type="date" id="dateCompleted" />
+
+          <label>SQL Publication:</label>
+          <input type="text" id="sqlPublication" />
+
+          <label>Cloud Publication:</label>
+          <input type="text" id="cloudPublication" />
+
+          <label>Developer:</label>
+          <input type="text" id="developer" />
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="reset" class="btn-reset">Reset</button>
+        <button type="submit" class="btn-save">Save</button>
+      </div>
+    </form>
+  </div>
+  
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="dataqa.js"></script>
+</body>
+</html>

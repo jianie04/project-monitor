@@ -94,6 +94,20 @@ header .top-actions {
   cursor: pointer;
 }
 
+/* .top-actions button {
+  background: #004aad;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.2s ease;
+}
+
+.top-actions button:hover {
+  background: #00347a;
+} */
 /* 📊 Table Styling */
 table {
   width: 100%;

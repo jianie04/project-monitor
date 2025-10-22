@@ -4,26 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Data QA</title>
-  <link rel="stylesheet" href="/data-qa/data-qa.css">
-
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
- 
+   <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="/data-qa/data-qa.css"> 
 </head>
 <body>
-  <header>Data QA Review</header>
-
-  <button class="back-btn" id="backBtn">← Back to Reports</button>
-  <div class="container">
-  <div class="report-details" id="reportDetails">
-    <p><strong>Loading report details...</strong></p>
+  <header>report</header>
+  
+<div class="container"></div>
+  <a href="../view-reports/view-reports.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Back to Department</a>
+  
+  <div class="report-header">
+      <h2 id="reportNameHeader">Loading Department...</h2>
   </div>
-
-  <!-- <label for="qaNotes"><strong>QA Notes:</strong></label>
-  <textarea id="qaNotes" placeholder="Enter your QA notes here..."></textarea>
-  <button id="saveQABtn">Save QA Notes</button> -->
 
   <h3 style="margin-top: 30px;">Data QA Table</h3>
   <table id="qaTable">
@@ -53,10 +46,11 @@
     </tbody>
   </table>
 
-  
 </div>
-
-<script src="data-qa.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="data-qs.js"></script>
 
     
 </body>

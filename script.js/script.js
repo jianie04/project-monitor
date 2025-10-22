@@ -56,13 +56,13 @@ async function loadSummary() {
   });
 
   // --- Action Button Styles ---
-  document.querySelectorAll(".action-icons i").forEach(icon => {
-    icon.style.margin = "0 6px";
-    icon.style.cursor = "pointer";
-    icon.style.transition = "color 0.2s ease";
-    icon.addEventListener("mouseover", () => icon.style.color = "#007bff");
-    icon.addEventListener("mouseout", () => icon.style.color = "");
-  });
+  // document.querySelectorAll(".action-icons i").forEach(icon => {
+  //   icon.style.margin = "0 6px";
+  //   icon.style.cursor = "pointer";
+  //   icon.style.transition = "color 0.2s ease";
+  //   icon.addEventListener("mouseover", () => icon.style.color = "#007bff");
+  //   icon.addEventListener("mouseout", () => icon.style.color = "");
+  // });
 
   // 🔧 --- Delete function ---
   document.querySelectorAll(".delete-icon").forEach(icon => {
