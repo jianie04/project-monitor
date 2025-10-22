@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data QA</title>
+  <link rel="stylesheet" href="/data-qa/data-qa.css">
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+ 
+</head>
+<body>
+  <header>Data QA Review</header>
+
+  <button class="back-btn" id="backBtn">← Back to Reports</button>
+  <div class="container">
+  <div class="report-details" id="reportDetails">
+    <p><strong>Loading report details...</strong></p>
+  </div>
+
+  <!-- <label for="qaNotes"><strong>QA Notes:</strong></label>
+  <textarea id="qaNotes" placeholder="Enter your QA notes here..."></textarea>
+  <button id="saveQABtn">Save QA Notes</button> -->
+
+  <h3 style="margin-top: 30px;">Data QA Table</h3>
+  <table id="qaTable">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Status</th>
+        <th>Date Started</th>
+        <th>Validation</th>
+        <th>Data Wrangled</th>
+        <th>Duplicate</th>
+        <th>Typo Errors</th>
+        <th>Missing Data</th>
+        <th>Merge Tables</th>
+        <th>Calculated Fields</th>
+        <th>Check Format</th>
+        <th>Cloud</th>
+        <th>SQL</th>
+        <th>Ready for Dashboard</th>
+        <th>Date Completed</th>
+        <th>Developer</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="qaTableBody">
+      <!-- Sample rows added dynamically -->
+    </tbody>
+  </table>
+
+  
+</div>
+
+<script src="data-qa.js"></script>
+
+    
+</body>
+</html>

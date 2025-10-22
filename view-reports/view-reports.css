@@ -1,0 +1,301 @@
+/* 🎨 Base Theme Colors */
+:root {
+  --blue: #004aad;
+  --blue-dark: #003b8e;
+  --bg-light: #f4f6f9;
+}
+
+/* 🧩 General Layout */
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: var(--bg-light);
+  color: #333;
+}
+
+header {
+  background: var(--blue);
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--blue);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 6px;
+}
+
+header .top-actions {
+  margin: 0;
+  gap: 8px;
+}
+
+
+/* 📦 Main Container */
+.view-reports-container {
+  margin-top: 25px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 🧭 Navigation Buttons */
+.top-actions {
+ display: inline-block;
+  padding: 12px 18px;
+  background: var(--blue);
+  margin-top: 10px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.top-actions button,
+.btn-back {
+  display: inline-block;
+  padding: 12px 18px;
+  background: var(--blue);
+  margin-top: 10px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.top-actions button:hover,
+.btn-back:hover {
+  display: inline-block;
+  padding: 12px 18px;
+  background: var(--blue);
+  margin-top: 10px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* 📊 Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: #fff;
+  font-size: 14px;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  background: var(--blue);
+  color: #fff;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background: #f9fbff;
+}
+
+/* 💬 Remarks + Actions inline */
+/* .remarks-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.remarks-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+} */
+
+/* 🔘 Action Buttons (Data-QA style) */
+.action-icons {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 4px;
+}
+
+.action-icons button,
+.action-btn {
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  margin: 0 2px;
+  transition: background 0.2s;
+}
+
+.action-icons button:hover,
+.action-btn:hover {
+  background: var(--blue-dark);
+}
+
+.delete-btn {
+  background: #b50000;
+}
+
+.delete-btn:hover {
+  background: #8c0000;
+}
+
+/* 🚫 Empty Data Message */
+.no-data {
+  text-align: center;
+  padding: 18px;
+  color: #777;
+  font-style: italic;
+}
+
+/* 📋 Modal Styles (unchanged functional) */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 26px;
+  border-radius: 12px;
+  width: 460px;
+  max-width: 96%;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  position: relative;
+}
+
+.modal-content h2 {
+  margin: 0 0 12px 0;
+  color: var(--blue);
+  text-align: center;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #333;
+}
+
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-top: 6px;
+  box-sizing: border-box;
+}
+
+.date-range {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.date-range input {
+  flex: 1;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.save-btn {
+  flex: 1;
+  background: var(--blue);
+  color: #fff;
+  border: 0;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.save-btn:hover {
+  background: var(--blue-dark);
+}
+
+.reset-btn {
+  flex: 1;
+  background: #e6e6e6;
+  color: #333;
+  border: 0;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* 📱 Responsive Adjustments */
+@media (max-width: 768px) {
+  .view-reports-container {
+    padding: 10px;
+  }
+
+  table {
+    font-size: 13px;
+    min-width: 900px; /* keep scroll on mobile */
+  }
+
+  th, td {
+    padding: 10px 8px;
+  }
+
+  .modal-content {
+    width: 94%;
+  }
+}

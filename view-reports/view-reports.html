@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Department Reports</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- ✅ Correct relative path (since this HTML is inside /view-reports) -->
+  <link rel="stylesheet" href="/view-reports/view-reports.css" />
+</head>
+
+<body>
+  <header>📑 Department Reports</header>
+
+  <div class="container">
+    <a href="../index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+
+     <div class="dept-header">
+      <h2 id="deptNameHeader">Loading Department...</h2>
+      <div class="dept-actions">
+        <button id="btnAddReport" title="Add Report"><i class="fa-solid fa-plus-circle"></i> Add Report</button>
+        <button id="btnViewCharts" title="View Charts"><i class="fa-solid fa-chart-line"></i> View Charts</button>
+        <button id="btnDbQa" title="Dashboard QA"><i class="fa-solid fa-clipboard-check"></i> Dashboard QA</button>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Report Title</th>
+            <th>Date Requested</th>
+            <th>Date Received</th>
+            <th>Coverage</th>
+            <th>Source</th>
+            <th>Status</th>
+            <th>Source Files</th>
+            <th>Sent Through</th>
+            <th>Sent By</th>
+            <th>Frequency</th>
+            <!-- <th>Remarks</th> -->
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="reportsTable">
+          <tr><td colspan="12" class="no-data">Loading reports...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal" id="chartModal">
+    <div class="modal-content">
+      <h3>Add Chart</h3>
+      <input type="text" id="chartTitle" placeholder="Chart Title">
+      <input type="text" id="chartType" placeholder="Chart Type (e.g., bar, line)">
+      <textarea id="chartData" placeholder="Enter chart data JSON..." rows="5"></textarea>
+      <button id="saveChartBtn">Save</button>
+    </div>
+  </div>
+
+  <div class="modal" id="reportModal">
+    <div class="modal-content">
+      <span class="close" id="closeReportModal">&times;</span>
+      <h2 id="reportModalTitle">Add New Report</h2>
+
+      <form id="reportForm">
+        <label for="reportTitle">Report Title:</label>
+        <input type="text" id="reportTitle" required>
+
+        <label for="dateRequested">Date Requested:</label>
+        <input type="date" id="dateRequested">
+
+        <label for="dateReceived">Date Received:</label>
+        <input type="date" id="dateReceived">
+
+        <label>Data Coverage:</label>
+        <div class="date-range">
+          <input type="date" id="dateFrom">
+          <span style="align-self:center;">to</span>
+          <input type="date" id="dateTo">
+        </div>
+
+        <label for="reportSource">Data Source:</label>
+        <select id="reportSource">
+          <option value="">Select Source</option>
+          <option value="Department">Department</option>
+          <option value="Annual Report">Annual Report</option>
+        </select>
+
+        <label for="reportStatus">Data Status:</label>
+        <select id="reportStatus">
+          <option value="">Select Data Status</option>
+          <option value="New">New</option>
+          <option value="Update">Update</option>
+          <option value="Ongoing">Ongoing</option>
+          <option value="Completed">Completed</option>
+        </select>
+
+        <label for="sourceFiles">Source Files:</label>
+        <select id="sourceFiles">
+          <option value="">Select Source</option>
+          <option value="Database">Database</option>
+          <option value="Google Drive">Google Drive</option>
+          <option value="Email">Email</option>
+        </select>
+
+        <label for="sentThrough">Sent Through:</label>
+        <select id="sentThrough">
+          <option value="">Select</option>
+          <option value="Viber">Viber</option>
+          <option value="Email">Email</option>
+        </select>
+
+        <label for="sentBy">Sent By:</label>
+        <input type="text" id="sentBy">
+
+        <label for="reportFrequency">Data Frequency:</label>
+        <select id="reportFrequency">
+          <option value="">Select Frequency</option>
+          <option value="Monthly">Monthly</option>
+          <option value="Quarterly">Quarterly</option>
+          <option value="Annually">Annually</option>
+          <option value="Semi Annual">Semi Annual</option>
+        </select>
+
+        <!-- <label for="remarks">Remarks:</label>
+        <input type="text" id="remarks"> -->
+
+        <div class="modal-buttons">
+          <button type="submit" class="save-btn" id="saveReportBtn">Save</button>
+          <button type="reset" class="reset-btn" id="resetReportBtn">Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Firebase & Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <script src="view-reports.js"></script>
+</body>
+</html>
