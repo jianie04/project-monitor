@@ -3,24 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Quality Assurance</title>
-  <link rel="stylesheet" href="dataqa.css" />
+  <title>Chart List</title>
+  <link rel="stylesheet" href="chartlist.css" />
 </head>
 <body>
-  <header>Data Quality Assurance</header>
-  <div id="reportsContainer"></div>
+  <header>Chart List</header>
   <!-- <div class="view-reports-container">
   <button id="backBtn" class="add-btn" style="margin-bottom: 12px;">← Back to Reports</button>
   <h1 id="deptNameHeader"></h1>
   <h2 id="reportNameHeader"></h2>
 </div> -->
 
-<div class="dataqa-container">
+<div class="chartlist-container">
   <div class="header-container">
     <button id="backBtn">← Back to Reports</button>
     <div class="report-header">
       <h1 id="deptNameHeader">Department Name</h1>
-      <!-- <h2 id="reportNameHeader">Report Title</h2> -->
+      <h2 id="reportNameHeader">Report Title</h2>
     </div>
   </div>
 
@@ -29,35 +28,33 @@
 
 
   <div class="toolbar">
-    <button id="addReportBtn" class="add-btn">+Data Check</button>
+    <button id="addReportBtn" class="add-btn">+ Add New Data</button>
   </div>
 
-  <table id="qaTable">
-  <thead>
-    <tr>
-      <th>Report Title</th>
-      <th>Status</th>
-      <th>Date Started</th>
-      <th>Missing Data</th>
-      <th>Merge Tables</th>
-      <th>Calculated Fields</th>
-      <th>Validation</th>
-      <th>Data Wrangled</th>
-      <th>Duplicate</th>
-      <th>Typo Errors</th>
-      <th>Check Format</th>
-      <th>Ready for Dashboard</th>
-      <th>Date Completed</th>
-      <th>SQL Publication</th>
-      <th>Cloud Publication</th>
-      <th>Developer</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody id="qaTableBody"></tbody>
-</table>
-
-      <!-- <tr><td colspan="14" class="no-data">Not yet checked</td></tr> -->
+  <table id="dataTable">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Status</th>
+        <th>Date Started</th>
+        <th>Missing Data</th>
+        <th>Merge Tables</th>
+        <th>Calculated Fields</th>
+        <th>Validation</th>
+        <th>Data Wrangled</th>
+        <th>Duplicate</th>
+        <th>Typo Errors</th>
+        <th>Check Format</th>
+        <th>Ready for Dashboard</th>
+        <th>Date Completed</th>
+        <th>SQL Publication</th>
+        <th>Cloud Publication</th>
+        <th>Developer</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="dataBody">
+      <tr><td colspan="14" class="no-data">No reports found</td></tr>
     </tbody>
   </table>
 
@@ -65,14 +62,14 @@
 <div id="dataModal" class="modal">
   <div class="modal-content">
     <span class="close" id="closeModalBtn">&times;</span>
-    <h2>Data Quality Check</h2>
+    <h2>Add New Data</h2>
 
     <form id="dataForm">
       <div class="form-grid">
         <!-- LEFT COLUMN -->
         <div class="form-column">
-          <label>Report Title:</label>
-          <input type="text" id="reportTitle" />
+          <label>Data:</label>
+          <input type="text" id="dataName" />
 
           <label>Status:</label>
           <select id="status">
@@ -162,6 +159,6 @@
 
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script src="dataqa.js"></script>
+  <script src="chartlist.js"></script>
 </body>
 </html>

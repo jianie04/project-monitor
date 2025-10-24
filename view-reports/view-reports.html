@@ -15,17 +15,36 @@
 <body>
   <header>📑 Department Reports</header>
 
-  <div class="container">
-    <a href="../index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+ <div class="container">
 
-     <div class="dept-header">
-      <h2 id="deptNameHeader">Loading Department...</h2>
-      <div class="dept-actions">
-        <button id="btnAddReport" title="Add Report"><i class="fa-solid fa-plus-circle"></i> Add Report</button>
-        <button id="btnViewCharts" title="View Charts"><i class="fa-solid fa-chart-line"></i> View Charts</button>
-        <button id="btnDbQa" title="Dashboard QA"><i class="fa-solid fa-clipboard-check"></i> Dashboard QA</button>
-      </div>
+  <!-- Left side: Back button -->
+  <div class="toolbar">
+    <a href="../index.html" class="btn-back">
+      <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+    </a>
+
+    <!-- Right side: Action buttons -->
+    <div class="dept-actions">
+      <button id="btnAddReport" title="Add Report">
+        <i class="fa-solid fa-plus-circle"></i> Add Report
+      </button>
+      <button id="btnViewCharts" title="View Charts">
+        <i class="fa-solid fa-chart-line"></i> View Charts
+      </button>
+      <button id="btnDbQa" title="Dashboard QA">
+        <i class="fa-solid fa-clipboard-check"></i> Dashboard QA
+      </button>
+      <button id="btnDataQa" title="Data QA">
+        <i class="fa-solid fa-clipboard-check"></i> Data QA
+      </button>
     </div>
+  </div>
+
+  <div class="dept-header">
+    <h2 id="deptNameHeader">Loading Department...</h2>
+  </div>
+
+</div>
 
     <div class="table-responsive">
       <table>

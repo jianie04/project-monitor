@@ -1,11 +1,20 @@
-/* 🎨 Base Theme Colors */
+/* =======================================================
+🎨 BASE THEME COLORS
+Defines reusable color variables used across the layout
+======================================================= */
 :root {
   --blue: #004aad;
   --blue-dark: #003b8e;
   --bg-light: #f4f6f9;
+  --white: #fff;
+  --gray-border: #ddd;
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
-/* 🧩 General Layout */
+/* =======================================================
+🧩 GENERAL LAYOUT
+Applies base styling for page typography and layout
+======================================================= */
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
@@ -14,112 +23,122 @@ body {
   color: #333;
 }
 
-header {
-  background: var(--blue);
-  color: white;
-  padding: 15px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 600;
-  border-radius: 6px;
-}
-
+/* =======================================================
+📘 PAGE HEADER
+Displays the top title bar (e.g., "Department Reports")
+======================================================= */
 header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   background: var(--blue);
   color: white;
   padding: 15px 20px;
   border-radius: 6px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-header .top-actions {
-  margin: 0;
-  gap: 8px;
-}
-
-
-/* 📦 Main Container */
-.view-reports-container {
+/* =======================================================
+📦 MAIN CONTAINER
+Centers the report table within a white card layout
+======================================================= */
+.view-reports-container,
+.container {
   margin-top: 25px;
-  background: #fff;
+  background: var(--white);
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  max-width: 1000px;
+  box-shadow: 0 2px 6px var(--shadow);
+  max-width: 2000px;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* 🧭 Navigation Buttons */
-.top-actions {
- display: inline-block;
-  padding: 12px 18px;
-  background: var(--blue);
-  margin-top: 10px;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 14px;
-  cursor: pointer;
+/* =======================================================
+🧭 NAVIGATION & ACTION BUTTONS
+======================================================= */
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
 }
 
-.top-actions button,
+/* Back button */
 .btn-back {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 12px 18px;
   background: var(--blue);
-  margin-top: 10px;
   color: white;
   border: none;
   border-radius: 6px;
   text-decoration: none;
   font-size: 14px;
   cursor: pointer;
-}
-
-.top-actions button:hover,
-.btn-back:hover {
-  display: inline-block;
-  padding: 12px 18px;
-  background: var(--blue);
-  margin-top: 10px;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* .top-actions button {
-  background: #004aad;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 15px;
-  cursor: pointer;
-  margin-right: 10px;
   transition: background 0.2s ease;
 }
 
-.top-actions button:hover {
-  background: #00347a;
-} */
-/* 📊 Table Styling */
+.btn-back:hover {
+  background: var(--blue-dark);
+}
+
+/* Right-side buttons */
+.dept-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.dept-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dept-actions button:hover {
+  background: var(--blue-dark);
+}
+
+/* Center the department name below the toolbar */
+.dept-header {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.dept-header h2 {
+  font-size: 30px;
+  color: var(--blue-dark);
+  margin: 0;
+  font-weight: 600;
+}
+
+
+/* =======================================================
+📊 TABLE STYLING
+Used for listing department reports
+======================================================= */
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 15px;
-  background: #fff;
+  background: var(--white);
   font-size: 14px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--gray-border);
 }
 
 th, td {
-  border: 1px solid #ddd;
+  border: 1px solid var(--gray-border);
   padding: 10px 8px;
   text-align: center;
   vertical-align: middle;
@@ -127,7 +146,7 @@ th, td {
 
 th {
   background: var(--blue);
-  color: #fff;
+  color: var(--white);
   font-weight: 600;
 }
 
@@ -139,46 +158,31 @@ tr:hover {
   background: #f9fbff;
 }
 
-/* 💬 Remarks + Actions inline */
-/* .remarks-cell {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.remarks-text {
-  flex: 1;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-} */
-
-/* 🔘 Action Buttons (Data-QA style) */
+/* =======================================================
+🔘 ACTION BUTTONS (Edit, Delete, Data QA, Chart)
+Inline buttons inside the "Actions" column
+======================================================= */
 .action-icons {
   display: inline-flex;
   gap: 4px;
-  margin-left: 4px;
 }
 
-.action-icons button,
-.action-btn {
+.action-icons button {
   background: var(--blue);
-  color: #fff;
+  color: var(--white);
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 13px;
-  margin: 0 2px;
   transition: background 0.2s;
 }
 
-.action-icons button:hover,
-.action-btn:hover {
+.action-icons button:hover {
   background: var(--blue-dark);
 }
 
+/* Delete button color variant */
 .delete-btn {
   background: #b50000;
 }
@@ -187,7 +191,10 @@ tr:hover {
   background: #8c0000;
 }
 
-/* 🚫 Empty Data Message */
+/* =======================================================
+🚫 EMPTY DATA MESSAGE
+Shown when no reports are found
+======================================================= */
 .no-data {
   text-align: center;
   padding: 18px;
@@ -195,7 +202,10 @@ tr:hover {
   font-style: italic;
 }
 
-/* 📋 Modal Styles (unchanged functional) */
+/* =======================================================
+📋 MODAL STYLING
+Used for Add/Edit Report pop-up form
+======================================================= */
 .modal {
   display: none;
   position: fixed;
@@ -211,7 +221,7 @@ tr:hover {
 }
 
 .modal-content {
-  background: #fff;
+  background: var(--white);
   padding: 26px;
   border-radius: 12px;
   width: 460px;
@@ -235,6 +245,7 @@ tr:hover {
   color: #333;
 }
 
+/* Form fields inside modal */
 .modal-content label {
   display: block;
   margin-top: 10px;
@@ -253,6 +264,7 @@ tr:hover {
   box-sizing: border-box;
 }
 
+/* Date range alignment */
 .date-range {
   display: flex;
   gap: 8px;
@@ -263,6 +275,7 @@ tr:hover {
   flex: 1;
 }
 
+/* Modal action buttons */
 .modal-buttons {
   display: flex;
   gap: 10px;
@@ -278,6 +291,7 @@ tr:hover {
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  transition: background 0.2s ease;
 }
 
 .save-btn:hover {
@@ -294,15 +308,18 @@ tr:hover {
   cursor: pointer;
 }
 
-/* 📱 Responsive Adjustments */
+/* =======================================================
+📱 RESPONSIVE ADJUSTMENTS
+Keeps tables scrollable and modal width flexible on mobile
+======================================================= */
 @media (max-width: 768px) {
-  .view-reports-container {
+  .container {
     padding: 10px;
   }
 
   table {
     font-size: 13px;
-    min-width: 900px; /* keep scroll on mobile */
+    min-width: 900px; /* Allow horizontal scroll */
   }
 
   th, td {

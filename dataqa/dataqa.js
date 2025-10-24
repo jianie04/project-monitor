@@ -1,5 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // -------------------- Firebase Configuration --------------------
+document.addEventListener("DOMContentLoaded", async () => {
   const firebaseConfig = {
     apiKey: "AIzaSyAfWLaoabC5U8vzFQyIOScZFLKPDoZh3cE",
     authDomain: "project-monitor-f6fb2.firebaseapp.com",
@@ -8,18 +7,34 @@ document.addEventListener("DOMContentLoaded", () => {
     messagingSenderId: "789686813125",
     appId: "1:789686813125:web:xxxxxx"
   };
-
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
 
-  // -------------------- DOM Elements --------------------
+  // URL params
+  const urlParams = new URLSearchParams(window.location.search);
+  const deptId = urlParams.get("deptId");
+  let deptName = urlParams.get("deptName");
+
+  // -------------------- Fetch dept name from Firestore if missing --------------------
+  if (!deptName && deptId) {
+    try {
+      const deptSnap = await db.collection("departments").doc(deptId).get();
+      if (deptSnap.exists) deptName = deptSnap.data().name;
+    } catch (err) {
+      console.error("Failed to fetch department name:", err);
+    }
+  }
+
+  document.getElementById("deptNameHeader").textContent = decodeURIComponent(deptName || "Department");
+
+  // Elements
   const addReportBtn = document.getElementById("addReportBtn");
   const dataModal = document.getElementById("dataModal");
   const closeModal = document.getElementById("closeModalBtn");
   const dataForm = document.getElementById("dataForm");
-  const dataBody = document.getElementById("dataBody");
+  const qaTableBody = document.getElementById("qaTableBody");
 
-  let editId = null; // to track editing
+  let editId = null;
 
   // -------------------- Modal Control --------------------
   addReportBtn.addEventListener("click", () => {
@@ -29,63 +44,102 @@ document.addEventListener("DOMContentLoaded", () => {
     dataForm.querySelector(".btn-save").textContent = "Save";
   });
 
-  closeModal.addEventListener("click", () => {
-    dataModal.style.display = "none";
-  });
-
-  window.addEventListener("click", (event) => {
-    if (event.target === dataModal) {
-      dataModal.style.display = "none";
-    }
-  });
+  closeModal.addEventListener("click", () => dataModal.style.display = "none");
+  window.addEventListener("click", (e) => { if (e.target === dataModal) dataModal.style.display = "none"; });
 
   // -------------------- Load Reports --------------------
   async function loadReports() {
-    dataBody.innerHTML = "";
-    const snapshot = await db.collection("data_reports").get();
+    qaTableBody.innerHTML = "";
+    try {
+      const snapshot = await db.collection("reports").where("deptId", "==", deptId).get();
+      if (snapshot.empty) {
+        qaTableBody.innerHTML = `<tr><td colspan="17" style="text-align:center;">No reports yet.</td></tr>`;
+        return;
+      }
 
-    if (snapshot.empty) {
-      dataBody.innerHTML = `<tr><td colspan="17" class="no-data">No reports found</td></tr>`;
-      return;
+      snapshot.forEach(doc => {
+        const r = doc.data();
+        const row = `
+          <tr>
+            <td>${r.title || r.reportTitle || ""}</td>
+            <td>${r.status || ""}</td>
+            <td>${r.dateStarted || ""}</td>
+            <td>${r.missingData || ""}</td>
+            <td>${r.mergeTables || ""}</td>
+            <td>${r.calculatedFields || ""}</td>
+            <td>${r.dataValidation || ""}</td>
+            <td>${r.dataWrangled || ""}</td>
+            <td>${r.duplicate || ""}</td>
+            <td>${r.typoErrors || ""}</td>
+            <td>${r.checkFormat || ""}</td>
+            <td>${r.readyForDashboard || ""}</td>
+            <td>${r.dateCompleted || ""}</td>
+            <td>${r.sqlPublication || ""}</td>
+            <td>${r.cloudPublication || ""}</td>
+            <td>${r.developer || ""}</td>
+            <td>
+              <button class="edit-btn" data-id="${doc.id}">✏️</button>
+              <button class="delete-btn" data-id="${doc.id}">🗑️</button>
+            </td>
+          </tr>`;
+        qaTableBody.insertAdjacentHTML("beforeend", row);
+      });
+      attachRowEvents();
+    } catch (err) {
+      console.error(err);
+      qaTableBody.innerHTML = `<tr><td colspan="17" style="text-align:center;">Failed to load reports</td></tr>`;
     }
-
-    snapshot.forEach((doc) => {
-      const r = doc.data();
-      const row = `
-        <tr>
-          <td>${r.dataName}</td>
-          <td>${r.status}</td>
-          <td>${r.dateStarted}</td>
-          <td>${r.missingData}</td>
-          <td>${r.mergeTables}</td>
-          <td>${r.calculatedFields}</td>
-          <td>${r.dataValidation}</td>
-          <td>${r.dataWrangled}</td>
-          <td>${r.duplicate}</td>
-          <td>${r.typoErrors}</td>
-          <td>${r.checkFormat}</td>
-          <td>${r.readyForDashboard}</td>
-          <td>${r.dateCompleted}</td>
-          <td>${r.sqlPublication}</td>
-          <td>${r.cloudPublication}</td>
-          <td>${r.developer}</td>
-          <td>
-            <button class="edit-btn" data-id="${doc.id}">✏️</button>
-            <button class="delete-btn" data-id="${doc.id}">🗑️</button>
-          </td>
-        </tr>`;
-      dataBody.insertAdjacentHTML("beforeend", row);
-    });
-
-    attachRowEvents();
   }
 
-  // -------------------- Add / Update Report --------------------
-  dataForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  // -------------------- Edit / Delete --------------------
+  function attachRowEvents() {
+    document.querySelectorAll(".edit-btn").forEach(btn => {
+      btn.removeEventListener("click", btn._editHandler);
+      btn._editHandler = async () => {
+        editId = btn.dataset.id;
+        const docSnap = await db.collection("reports").doc(editId).get();
+        if (!docSnap.exists) return alert("Report not found.");
+        const r = docSnap.data();
 
+        document.getElementById("reportTitle").value = r.title || r.reportTitle || "";
+        document.getElementById("status").value = r.status || "";
+        document.getElementById("dateStarted").value = r.dateStarted || "";
+        document.getElementById("missingData").value = r.missingData || "";
+        document.getElementById("mergeTables").value = r.mergeTables || "";
+        document.getElementById("calculatedFields").value = r.calculatedFields || "";
+        document.getElementById("dateCompleted").value = r.dateCompleted || "";
+        document.getElementById("sqlPublication").value = r.sqlPublication || "";
+        document.getElementById("cloudPublication").value = r.cloudPublication || "";
+        document.getElementById("developer").value = r.developer || "";
+
+        ["dataValidation","dataWrangled","duplicate","typoErrors","checkFormat","readyForDashboard"]
+          .forEach(field => {
+            const val = r[field];
+            document.querySelectorAll(`input[name='${field}']`).forEach(radio => radio.checked = radio.value === val);
+          });
+
+        dataModal.style.display = "flex";
+        dataForm.querySelector(".btn-save").textContent = "Update";
+      };
+      btn.addEventListener("click", btn._editHandler);
+    });
+
+    document.querySelectorAll(".delete-btn").forEach(btn => {
+      btn.removeEventListener("click", btn._delHandler);
+      btn._delHandler = async () => {
+        if(!confirm("Delete this report?")) return;
+        await db.collection("reports").doc(btn.dataset.id).delete();
+        loadReports();
+      };
+      btn.addEventListener("click", btn._delHandler);
+    });
+  }
+
+  // -------------------- Add / Update --------------------
+  dataForm.addEventListener("submit", async e => {
+    e.preventDefault();
     const report = {
-      dataName: document.getElementById("dataName").value,
+      title: document.getElementById("reportTitle").value,
       status: document.getElementById("status").value,
       dateStarted: document.getElementById("dateStarted").value,
       missingData: document.getElementById("missingData").value,
@@ -101,67 +155,26 @@ document.addEventListener("DOMContentLoaded", () => {
       sqlPublication: document.getElementById("sqlPublication").value,
       cloudPublication: document.getElementById("cloudPublication").value,
       developer: document.getElementById("developer").value,
-      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      deptId: deptId
     };
 
-    if (editId) {
-      await db.collection("data_reports").doc(editId).update(report);
-    } else {
-      await db.collection("data_reports").add(report);
+    try {
+      if(editId) await db.collection("reports").doc(editId).update(report);
+      else await db.collection("reports").add(report);
+      dataModal.style.display = "none";
+      dataForm.reset();
+      editId = null;
+      loadReports();
+    } catch(err) {
+      console.error(err);
+      alert("Save failed");
     }
-
-    dataForm.reset();
-    dataModal.style.display = "none";
-    editId = null;
-    dataForm.querySelector(".btn-save").textContent = "Save";
-    loadReports();
   });
 
-  // -------------------- Edit / Delete Buttons --------------------
-  function attachRowEvents() {
-    document.querySelectorAll(".delete-btn").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        const id = btn.dataset.id;
-        if (confirm("Delete this report?")) {
-          await db.collection("data_reports").doc(id).delete();
-          loadReports();
-        }
-      });
-    });
+  // -------------------- Back Button --------------------
+  document.getElementById("backBtn").addEventListener("click", () => window.history.back());
 
-    document.querySelectorAll(".edit-btn").forEach((btn) => {
-      btn.addEventListener("click", async () => {
-        editId = btn.dataset.id;
-        const doc = await db.collection("data_reports").doc(editId).get();
-        if (!doc.exists) return;
-
-        const r = doc.data();
-        document.getElementById("dataName").value = r.dataName;
-        document.getElementById("status").value = r.status;
-        document.getElementById("dateStarted").value = r.dateStarted;
-        document.getElementById("missingData").value = r.missingData;
-        document.getElementById("mergeTables").value = r.mergeTables;
-        document.getElementById("calculatedFields").value = r.calculatedFields;
-        document.getElementById("dateCompleted").value = r.dateCompleted;
-        document.getElementById("sqlPublication").value = r.sqlPublication;
-        document.getElementById("cloudPublication").value = r.cloudPublication;
-        document.getElementById("developer").value = r.developer;
-
-        // Radio buttons
-        ["dataValidation","dataWrangled","duplicate","typoErrors","checkFormat","readyForDashboard"].forEach(field => {
-          const val = r[field];
-          if(val){
-            const radio = document.querySelector(`input[name='${field}'][value='${val}']`);
-            if(radio) radio.checked = true;
-          }
-        });
-
-        dataModal.style.display = "flex";
-        dataForm.querySelector(".btn-save").textContent = "Update";
-      });
-    });
-  }
-
-  // -------------------- Initialize --------------------
+  // Initial load
   loadReports();
 });

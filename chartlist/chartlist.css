@@ -10,7 +10,6 @@
 
 /* 🧩 General Layout */
 body {
-  padding: 20px;
   font-family: "Poppins", sans-serif;
   margin: 0;
   background: var(--bg-light);
@@ -43,7 +42,6 @@ header {
 }
 
 .add-btn {
-  text-align: center;
   background: var(--blue);
   color: white;
   border: none;

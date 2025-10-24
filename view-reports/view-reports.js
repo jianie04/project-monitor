@@ -17,6 +17,7 @@
   // =======================================================
   const urlParams = new URLSearchParams(window.location.search);
   const deptId = urlParams.get("deptId");
+  const highlightReport = urlParams.get("highlightReport"); 
   const deptHeader = document.getElementById("deptNameHeader");
   const reportsTable = document.getElementById("reportsTable");
 
@@ -27,61 +28,73 @@
   const closeReportModal = document.getElementById("closeReportModal");
 
   const dataQAModal = document.getElementById("dataQAModal");
-  const chartModal = document.getElementById("chartModal");
+  const chartlistModal = document.getElementById("chartlistModal");
 
   let editReportId = null;
 
   // =======================================================
   // ✅ LOAD REPORTS
   // =======================================================
-  async function loadReports() {
-    reportsTable.innerHTML = `<tr><td colspan="12" class="no-data">Loading reports...</td></tr>`;
+async function loadReports() {
+  reportsTable.innerHTML = `<tr><td colspan="12" class="no-data">Loading reports...</td></tr>`;
 
-    if (!deptId) {
-      reportsTable.innerHTML = `<tr><td colspan="12" class="no-data">Invalid department ID</td></tr>`;
-      return;
-    }
-
-    const deptSnap = await db.collection("departments").doc(deptId).get();
-    const deptName = deptSnap.exists ? deptSnap.data().name : "Unknown Department";
-    deptHeader.textContent = deptName;
-
-    const snapshot = await db.collection("reports").where("deptId", "==", deptId).get();
-    if (snapshot.empty) {
-      reportsTable.innerHTML = `<tr><td colspan="12" class="no-data">No reports found for ${deptName}</td></tr>`;
-      return;
-    }
-
-    reportsTable.innerHTML = "";
-    snapshot.forEach(doc => {
-  const r = doc.data();
-  const coverage = r.dateFrom && r.dateTo ? `${r.dateFrom} → ${r.dateTo}` : "-";
-
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>${r.title || "-"}</td>
-    <td>${r.dateRequested || "-"}</td>
-    <td>${r.dateReceived || "-"}</td>
-    <td>${coverage}</td>
-    <td>${r.source || "-"}</td>
-    <td>${r.status || "-"}</td>
-    <td>${r.sourceFiles || "-"}</td>
-    <td>${r.sentThrough || "-"}</td>
-    <td>${r.sentBy || "-"}</td>
-    <td>${r.frequency || "-"}</td>
-    <td class="remarks-cell">
-      <span class="action-icons">
-        <button title="Edit" data-id="${doc.id}"><i class="fa-solid fa-edit"></i></button>
-        <button title="Delete" data-id="${doc.id}"><i class="fa-solid fa-trash"></i></button>
-        <button title="Data QA" data-id="${doc.id}"><i class="fa-solid fa-database"></i></button>
-        <button title="Add Chart" data-id="${doc.id}"><i class="fa-solid fa-chart-bar"></i></button>
-      </span>
-    </td>`;
-  reportsTable.appendChild(row);
-});
-
-    attachActionEvents();
+  if (!deptId) {
+    reportsTable.innerHTML = `<tr><td colspan="12" class="no-data">Invalid department ID</td></tr>`;
+    return;
   }
+
+  const deptSnap = await db.collection("departments").doc(deptId).get();
+  const deptName = deptSnap.exists ? deptSnap.data().name : "Unknown Department";
+  deptHeader.textContent = deptName;
+
+  const snapshot = await db.collection("reports").where("deptId", "==", deptId).get();
+  if (snapshot.empty) {
+    reportsTable.innerHTML = `<tr><td colspan="12" class="no-data">No reports found for ${deptName}</td></tr>`;
+    return;
+  }
+
+  reportsTable.innerHTML = "";
+  snapshot.forEach(doc => {
+    const r = doc.data();
+    const coverage = r.dateFrom && r.dateTo ? `${r.dateFrom} → ${r.dateTo}` : "-";
+
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${r.title || "-"}</td>
+      <td>${r.dateRequested || "-"}</td>
+      <td>${r.dateReceived || "-"}</td>
+      <td>${coverage}</td>
+      <td>${r.source || "-"}</td>
+      <td>${r.status || "-"}</td>
+      <td>${r.sourceFiles || "-"}</td>
+      <td>${r.sentThrough || "-"}</td>
+      <td>${r.sentBy || "-"}</td>
+      <td>${r.frequency || "-"}</td>
+      <td class="remarks-cell">
+        <span class="action-icons">
+          <button title="Edit" data-id="${doc.id}"><i class="fa-solid fa-edit"></i></button>
+          <button title="Delete" data-id="${doc.id}"><i class="fa-solid fa-trash"></i></button>
+          <button title="Data QA" data-id="${doc.id}"><i class="fa-solid fa-database"></i></button>
+          <button title="Add Chart" data-id="${doc.id}"><i class="fa-solid fa-chart-bar"></i></button>
+        </span>
+      </td>`;
+    reportsTable.appendChild(row);
+  });
+
+  attachActionEvents();
+
+//   // Highlight the report if coming from Data QA
+//  if (highlightReport) {
+//   const row = document.querySelector(`button[data-id='${highlightReport}']`)?.closest("tr");
+//   if (row) {
+//     row.scrollIntoView({ behavior: "smooth", block: "center" });
+//     row.style.backgroundColor = "#ffff99"; // highlight
+//     setTimeout(() => row.style.backgroundColor = "", 3000);
+//   }
+// }
+
+}
+
   // =======================================================
   // ✅ ATTACH ACTION BUTTONS
   // =======================================================
@@ -137,50 +150,74 @@ document.querySelectorAll(".action-icons button[title='Edit']").forEach(btn => {
       });
     });
 
-   // Data QA → open separate page, include department name
+
+
+// // Data QA → open separate page, include department + report details
 // document.querySelectorAll(".action-icons button[title='Data QA']").forEach(btn => {
-//   btn.addEventListener("click", e => {
+//   btnDataQa.addEventListener("click", e => {
 //     const button = e.target.closest("button");
-//     const id = button.dataset.id;
+//     const reportId = button.dataset.id;
+
 //     const row = button.closest("tr");
-//     const department = row.querySelector(".department-cell")?.innerText || "All";
-//     window.location.href = `/data-qa/data-qa.html?reportId=${id}&dept=${encodeURIComponent(department)}`;
+
+//     // Get the report title from the first column
+//     const reportTitle = row.querySelector("td:first-child")?.innerText?.trim() || "Untitled Report";
+
+//     // Dept name is already known from the header
+//     const departmentName = deptHeader.textContent || "Department";
+
+//     // Redirect to Data QA with URL params
+//     window.location.href = `/dataqa/dataqa.html?reportId=${encodeURIComponent(reportId)}&deptId=${encodeURIComponent(deptId)}&deptName=${encodeURIComponent(departmentName)}&reportName=${encodeURIComponent(reportTitle)}`;
 //   });
 // });
 
 
-// Data QA → open separate page, include department + report details
-document.querySelectorAll(".action-icons button[title='Data QA']").forEach(btn => {
-  btn.addEventListener("click", e => {
-    const button = e.target.closest("button");
-    const reportId = button.dataset.id;
 
-    // Get the row
-    const row = button.closest("tr");
+// // =======================================================
+// // ✅ DATA QA (TOP BUTTON NAVIGATION)
+// // =======================================================
+// const btnDataQa = document.getElementById("btnDataQa");
 
-    // Replace these selectors with the actual class names of your table cells
-    const deptId = row.querySelector(".dept-id-cell")?.innerText?.trim() || "UnknownDept";
-    const deptName = row.querySelector(".department-cell")?.innerText?.trim() || "Department";
-    const reportDetails = row.querySelector("td:first-child")?.innerText?.trim() || "Untitled Report"; // assuming first column is report title
+// btnDataQa.addEventListener("click", () => {
+//   // Make sure dept info is available
+//   const departmentName = deptHeader.textContent || "Department";
 
-    // Debug log
-    console.log("Redirecting with:", { reportId, reportDetails, deptId, deptName });
+//   // Navigate to Data QA page with query parameters
+//   window.location.href = `/dataqa/dataqa.html?deptId=${encodeURIComponent(deptId)}&deptName=${encodeURIComponent(departmentName)}`;
+// });
 
-    // Redirect
-    window.location.href = `/dataqa/dataqa.html?reportId=${encodeURIComponent(reportId)}&reportDetails=${encodeURIComponent(reportDetails)}&deptId=${encodeURIComponent(deptId)}&deptName=${encodeURIComponent(deptName)}`;
-  });
+
+// =======================================================
+// ✅ DATA QA BUTTON (TOP NAVIGATION)
+document.getElementById("btnDataQa").addEventListener("click", () => {
+  if (!deptId) {
+    alert("No department found!");
+    return;
+  }
+  // Navigate to Data QA page while staying under same department
+  window.location.href = `../dataqa/dataqa.html?deptId=${deptId}`;
 });
 
 
 
     // Add Chart
-    document.querySelectorAll(".action-icons button[title='Add Chart']").forEach(btn => {
-      btn.addEventListener("click", e => {
-        const id = e.target.closest("button").dataset.id;
-        chartModal.dataset.reportId = id;
-        chartModal.classList.add("show");
-      });
-    });
+document.querySelectorAll(".action-icons button[title='Chart List']").forEach(btn => {
+  btn.addEventListener("click", e => {
+    const button = e.target.closest("button");
+    const reportId = button.dataset.id;
+
+    const row = button.closest("tr");
+
+    // Get the report title from the first column
+    const reportTitle = row.querySelector("td:first-child")?.innerText?.trim() || "Untitled Report";
+
+    // Dept name is already known from the header
+    const departmentName = deptHeader.textContent || "Department";
+
+    // Redirect to Data QA with URL params
+    window.location.href = `/chartlist/chartlist.html?reportId=${encodeURIComponent(reportId)}&deptId=${encodeURIComponent(deptId)}&deptName=${encodeURIComponent(departmentName)}&reportName=${encodeURIComponent(reportTitle)}`;
+  });
+});
   }
 
   // =======================================================
@@ -207,6 +244,9 @@ document.querySelectorAll(".action-icons button[title='Data QA']").forEach(btn =
     reportForm.reset();
     reportModal.classList.add("show");
   });
+
+  
+
 
   // =======================================================
   // ✅ SAVE REPORT (ADD OR EDIT)
