@@ -18,7 +18,7 @@
   <section class="dashboard">
     <div class="card">
       <h2 id="totalDepartments">0</h2>
-      <p>Total Departments</p>
+      <p>Total Departments with Published Dashboard</p>
       <div class="chart-container"><canvas id="departmentChart"></canvas></div>
     </div>
 
@@ -56,8 +56,10 @@
           <th>Department</th>
           <th>Data Source</th>
           <th>Data Status</th>
+          <th>Dashboard Status</th>
           <th>License Status</th>
-          <th>Updated As Of</th>
+          <th>Data Updated As Of</th>
+
           <!-- <th>Report Count</th> -->
           <!-- <th>Chart Count</th> -->
         </tr>
@@ -137,6 +139,14 @@
           <option value="Outdated">Outdated</option>
         </select>
 
+        <label for="dbStatus">Dashboard Status:</label>
+        <select id="dbStatus" required>
+          <option value="">Select Dashboard Status</option>
+          <option value="Published">Published</option>
+          <option value="Developing">Developing</option>
+          <option value="No dashboard yet">No dashboard yet</option>
+        </select>
+
         <label for="deptLicense">License Status:</label>
         <select id="deptLicense" required>
           <option value="">Select License Status</option>
@@ -147,7 +157,7 @@
         <label for="deptUpdated">Updated As Of:</label>
         <input type="date" id="deptUpdated" required />
 
-        <label for="deptFrequency">Data Frequency:</label>
+        <!-- <label for="deptFrequency">Data Frequency:</label>
         <select id="deptFrequency" required>
           <option value="">Select Frequency</option>
           <option value="Monthly">Monthly</option>
@@ -156,7 +166,7 @@
           <option value="Annual">Annual</option>
           <option value="Every Three Years">Every Three Years</option>
           <option value="Other">Other</option>
-        </select>
+        </select> -->
 
         <div class="modal-buttons">
           <button type="submit" class="save-btn">Save</button>
@@ -166,78 +176,7 @@
     </div>
   </div>
 
-  <!-- Add Report Modal -->
-  <div id="addReportModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeReportModal">&times;</span>
-      <h2>Add New Report</h2>
-      <form id="addReportForm">
-        <label for="reportTitle">Report Title:</label>
-        <input type="text" id="reportTitle" required>
 
-        <label for="dateRequested">Date Requested:</label>
-        <input type="date" id="dateRequested" required>
-
-        <label for="dateReceived">Date Received:</label>
-        <input type="date" id="dateReceived" required>
-
-        <label>Data Coverage:</label>
-        <div class="date-range">
-          <input type="date" id="dateFrom" required>
-          <span>to</span>
-          <input type="date" id="dateTo" required>
-        </div>
-
-        <label for="reportSource">Data Source:</label>
-        <select id="reportSource" required>
-          <option value="">Select Source</option>
-          <option value="Department">Department</option>
-          <option value="Annual Report">Annual Report</option>
-        </select>
-
-        <label for="reportStatus">Data Status:</label>
-        <select id="reportStatus" required>
-          <option value="">Select Data Status</option>
-          <option value="New">New</option>
-          <option value="Update">Update</option>
-        </select>
-
-        <label for="sourceFiles">Source Files:</label>
-        <select id="sourceFiles" required>
-          <option value="">Select Source</option>
-          <option value="Database">Database</option>
-          <option value="Google Drive">Google Drive</option>
-          <option value="Email">Email</option>
-        </select>
-
-        <label for="sentThrough">Sent Through:</label>
-        <select id="sentThrough" required>
-          <option value="">Select</option>
-          <option value="Viber">Viber</option>
-          <option value="Email">Email</option>
-        </select>
-
-        <label for="sentBy">Sent By:</label>
-        <input type="text" id="sentBy" required>
-
-        <label for="reportFrequency">Data Frequency:</label>
-        <select id="reportFrequency" required>
-          <option value="">Select Frequency</option>
-          <option value="Monthly">Monthly</option>
-          <option value="Quarterly">Quarterly</option>
-          <option value="Annually">Annually</option>
-        </select>
-
-        <!-- <label for="remarks">Remarks:</label>
-        <input type="text" id="remarks" required> -->
-
-        <div class="modal-buttons">
-          <button type="submit" class="save-btn">Save</button>
-          <button type="reset" class="reset-btn">Reset</button>
-        </div>
-      </form>
-    </div>
-  </div>
 
   <button id="downloadSummaryBtn">⬇️ Download Summary</button>
 
