@@ -152,40 +152,6 @@ document.querySelectorAll(".action-icons button[title='Edit']").forEach(btn => {
 
 
 
-// // Data QA → open separate page, include department + report details
-// document.querySelectorAll(".action-icons button[title='Data QA']").forEach(btn => {
-//   btnDataQa.addEventListener("click", e => {
-//     const button = e.target.closest("button");
-//     const reportId = button.dataset.id;
-
-//     const row = button.closest("tr");
-
-//     // Get the report title from the first column
-//     const reportTitle = row.querySelector("td:first-child")?.innerText?.trim() || "Untitled Report";
-
-//     // Dept name is already known from the header
-//     const departmentName = deptHeader.textContent || "Department";
-
-//     // Redirect to Data QA with URL params
-//     window.location.href = `/dataqa/dataqa.html?reportId=${encodeURIComponent(reportId)}&deptId=${encodeURIComponent(deptId)}&deptName=${encodeURIComponent(departmentName)}&reportName=${encodeURIComponent(reportTitle)}`;
-//   });
-// });
-
-
-
-// // =======================================================
-// // ✅ DATA QA (TOP BUTTON NAVIGATION)
-// // =======================================================
-// const btnDataQa = document.getElementById("btnDataQa");
-
-// btnDataQa.addEventListener("click", () => {
-//   // Make sure dept info is available
-//   const departmentName = deptHeader.textContent || "Department";
-
-//   // Navigate to Data QA page with query parameters
-//   window.location.href = `/dataqa/dataqa.html?deptId=${encodeURIComponent(deptId)}&deptName=${encodeURIComponent(departmentName)}`;
-// });
-
 
 // =======================================================
 // ✅ DATA QA BUTTON (TOP NAVIGATION)
@@ -196,6 +162,27 @@ document.getElementById("btnDataQa").addEventListener("click", () => {
   }
   // Navigate to Data QA page while staying under same department
   window.location.href = `../dataqa/dataqa.html?deptId=${deptId}`;
+});
+
+
+// ===== Chart List Navigation =====
+document.getElementById("btnChartList").addEventListener("click", () => {
+  if (!deptId) {
+    alert("No department found!");
+    return;
+  }
+  // Navigate to Chart List page under same department
+  window.location.href = `../chartlist/chart-list.html?deptId=${deptId}`;
+});
+
+// ===== dashboardq QA Navigation =====
+document.getElementById("btnDbQa").addEventListener("click", () => {
+  if (!deptId) {
+    alert("No department found!");
+    return;
+  }
+  // Navigate to Chart List page under same department
+  window.location.href = `../dashboard/dashboard-qa.html?deptId=${deptId}`;
 });
 
 
