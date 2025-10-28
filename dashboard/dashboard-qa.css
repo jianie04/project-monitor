@@ -36,27 +36,74 @@ header {
   font-weight: 600;
 }
 
+/* === Toolbar (Unified Header) === */
 .toolbar {
   display: flex;
-  justify-content: flex-end;
-  padding: 16px;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--white);
+  padding: 18px 30px;
+  margin: 20px auto 30px;
+  max-width: 2000px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px var(--shadow);
 }
 
-.add-btn {
-  text-align: center;
+/* Back Button */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
   background: var(--blue);
   color: white;
   border: none;
-  padding: 10px 16px;
-  border-radius: 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
   cursor: pointer;
-  font-weight: 500;
-  transition: background 0.3s;
+  transition: background 0.2s ease;
 }
 
+.btn-back:hover {
+  background: var(--blue-dark);
+}
+
+/* Department Title (Centered within toolbar) */
+.dept-header {
+  flex: 1;
+  text-align: center;
+}
+.dept-header h2 {
+  margin: 0;
+  color: var(--blue-dark);
+  font-weight: 700;
+  font-size: 22px;
+}
+
+/* Action Buttons (Right side) */
+.dept-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: #fff;
+  border: 2px solid var(--blue);
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
 .add-btn:hover {
   background: var(--blue-dark);
 }
+
 
 table {
   width: 100%;
@@ -232,42 +279,48 @@ input[type="radio"] {
   }
 }
 
-/* --- Header + Back Button --- */
 .header-container {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center; /* keeps header centered */
-  gap: 20px; /* space between back button and header */
-  margin-bottom: 20px;
-  position: relative;
+  margin: 20px auto;
+  max-width: 2000px;
+  background: var(--white);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px var(--shadow);
 }
 
+/* Back button styling similar to view-report
 #backBtn {
-  position: absolute; /* stays on left */
-  left: 0;
-  background: #004aad;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
   color: white;
-  padding: 10px 16px;
-  border-radius: 8px;
-  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 18px;
   font-size: 14px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.2s ease;
 }
 
 #backBtn:hover {
-  background: #003b8e;
-}
+  background: var(--blue-dark);
+} */
 
+/* Header title centered visually */
 .report-header {
-  text-align: center; /* header stays centered */
   flex: 1;
+  text-align: center;
 }
 
 .report-header h1 {
-  font-size: 24px;
-  color: #004aad;
-  margin: 8px 0 0 0;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--blue-dark);
+  margin: 0;
 }
 
 .report-header h2 {

@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const deptId = urlParams.get("deptId");
   let deptName = urlParams.get("deptName");
 
-  // -------------------- Fetch dept name from Firestore if missing --------------------
   if (!deptName && deptId) {
     try {
       const deptSnap = await db.collection("departments").doc(deptId).get();
@@ -27,96 +26,74 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("deptNameHeader").textContent = decodeURIComponent(deptName || "Department");
 
-  // Elements
-  const addReportBtn = document.getElementById("addReportBtn");
+  const addChartBtn = document.getElementById("addChartBtn");
   const dataModal = document.getElementById("dataModal");
   const closeModal = document.getElementById("closeModalBtn");
   const dataForm = document.getElementById("dataForm");
-  const qaTableBody = document.getElementById("qaTableBody");
-
+  const chartTableBody = document.getElementById("chartTableBody");
   let editId = null;
 
   // -------------------- Modal Control --------------------
-  addReportBtn.addEventListener("click", () => {
+  addChartBtn.addEventListener("click", () => {
     dataModal.style.display = "flex";
     dataForm.reset();
     editId = null;
     dataForm.querySelector(".btn-save").textContent = "Save";
   });
 
-  closeModal.addEventListener("click", () => dataModal.style.display = "none");
-  window.addEventListener("click", (e) => { if (e.target === dataModal) dataModal.style.display = "none"; });
+  closeModal.addEventListener("click", () => (dataModal.style.display = "none"));
+  window.addEventListener("click", (e) => {
+    if (e.target === dataModal) dataModal.style.display = "none";
+  });
 
-  // -------------------- Load Reports --------------------
-  async function loadReports() {
-    qaTableBody.innerHTML = "";
+  // -------------------- Load Charts --------------------
+  async function loadCharts() {
+    chartTableBody.innerHTML = "";
     try {
-      const snapshot = await db.collection("reports").where("deptId", "==", deptId).get();
+      const snapshot = await db.collection("charts").where("deptId", "==", deptId).get();
       if (snapshot.empty) {
-        qaTableBody.innerHTML = `<tr><td colspan="17" style="text-align:center;">No reports yet.</td></tr>`;
+        chartTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No charts yet.</td></tr>`;
         return;
       }
 
-      snapshot.forEach(doc => {
-        const r = doc.data();
+      snapshot.forEach((doc) => {
+        const c = doc.data();
         const row = `
           <tr>
-            <td>${r.title || r.reportTitle || ""}</td>
-            <td>${r.status || ""}</td>
-            <td>${r.dateStarted || ""}</td>
-            <td>${r.missingData || ""}</td>
-            <td>${r.mergeTables || ""}</td>
-            <td>${r.calculatedFields || ""}</td>
-            <td>${r.dataValidation || ""}</td>
-            <td>${r.dataWrangled || ""}</td>
-            <td>${r.duplicate || ""}</td>
-            <td>${r.typoErrors || ""}</td>
-            <td>${r.checkFormat || ""}</td>
-            <td>${r.readyForDashboard || ""}</td>
-            <td>${r.dateCompleted || ""}</td>
-            <td>${r.sqlPublication || ""}</td>
-            <td>${r.cloudPublication || ""}</td>
-            <td>${r.developer || ""}</td>
+            <td>${c.title || ""}</td>
+            <td>${c.chartType || ""}</td>
+            <td>${c.description || ""}</td>
+            <td>${c.chartStatus || ""}</td>
+            <td>${c.remarks || ""}</td>
             <td>
               <button class="edit-btn" data-id="${doc.id}">✏️</button>
               <button class="delete-btn" data-id="${doc.id}">🗑️</button>
             </td>
           </tr>`;
-        qaTableBody.insertAdjacentHTML("beforeend", row);
+        chartTableBody.insertAdjacentHTML("beforeend", row);
       });
       attachRowEvents();
     } catch (err) {
       console.error(err);
-      qaTableBody.innerHTML = `<tr><td colspan="17" style="text-align:center;">Failed to load reports</td></tr>`;
+      chartTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Failed to load charts</td></tr>`;
     }
   }
 
   // -------------------- Edit / Delete --------------------
   function attachRowEvents() {
-    document.querySelectorAll(".edit-btn").forEach(btn => {
+    document.querySelectorAll(".edit-btn").forEach((btn) => {
       btn.removeEventListener("click", btn._editHandler);
       btn._editHandler = async () => {
         editId = btn.dataset.id;
-        const docSnap = await db.collection("reports").doc(editId).get();
-        if (!docSnap.exists) return alert("Report not found.");
-        const r = docSnap.data();
+        const docSnap = await db.collection("charts").doc(editId).get();
+        if (!docSnap.exists) return alert("Chart not found.");
+        const c = docSnap.data();
 
-        document.getElementById("reportTitle").value = r.title || r.reportTitle || "";
-        document.getElementById("status").value = r.status || "";
-        document.getElementById("dateStarted").value = r.dateStarted || "";
-        document.getElementById("missingData").value = r.missingData || "";
-        document.getElementById("mergeTables").value = r.mergeTables || "";
-        document.getElementById("calculatedFields").value = r.calculatedFields || "";
-        document.getElementById("dateCompleted").value = r.dateCompleted || "";
-        document.getElementById("sqlPublication").value = r.sqlPublication || "";
-        document.getElementById("cloudPublication").value = r.cloudPublication || "";
-        document.getElementById("developer").value = r.developer || "";
-
-        ["dataValidation","dataWrangled","duplicate","typoErrors","checkFormat","readyForDashboard"]
-          .forEach(field => {
-            const val = r[field];
-            document.querySelectorAll(`input[name='${field}']`).forEach(radio => radio.checked = radio.value === val);
-          });
+        document.getElementById("chartTitle").value = c.title || "";
+        document.getElementById("chartType").value = c.chartType || "";
+        document.getElementById("description").value = c.description || "";
+        document.getElementById("chartStatus").value = c.chartStatus || "";
+        document.getElementById("remarks").value = c.remarks || "";
 
         dataModal.style.display = "flex";
         dataForm.querySelector(".btn-save").textContent = "Update";
@@ -124,57 +101,43 @@ document.addEventListener("DOMContentLoaded", async () => {
       btn.addEventListener("click", btn._editHandler);
     });
 
-    document.querySelectorAll(".delete-btn").forEach(btn => {
+    document.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.removeEventListener("click", btn._delHandler);
       btn._delHandler = async () => {
-        if(!confirm("Delete this report?")) return;
-        await db.collection("reports").doc(btn.dataset.id).delete();
-        loadReports();
+        if (!confirm("Delete this chart?")) return;
+        await db.collection("charts").doc(btn.dataset.id).delete();
+        loadCharts();
       };
       btn.addEventListener("click", btn._delHandler);
     });
   }
 
   // -------------------- Add / Update --------------------
-  dataForm.addEventListener("submit", async e => {
+  dataForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const report = {
-      title: document.getElementById("reportTitle").value,
-      status: document.getElementById("status").value,
-      dateStarted: document.getElementById("dateStarted").value,
-      missingData: document.getElementById("missingData").value,
-      mergeTables: document.getElementById("mergeTables").value,
-      calculatedFields: document.getElementById("calculatedFields").value,
-      dataValidation: document.querySelector("input[name='dataValidation']:checked")?.value || "No",
-      dataWrangled: document.querySelector("input[name='dataWrangled']:checked")?.value || "No",
-      duplicate: document.querySelector("input[name='duplicate']:checked")?.value || "No",
-      typoErrors: document.querySelector("input[name='typoErrors']:checked")?.value || "No",
-      checkFormat: document.querySelector("input[name='checkFormat']:checked")?.value || "No",
-      readyForDashboard: document.querySelector("input[name='readyForDashboard']:checked")?.value || "No",
-      dateCompleted: document.getElementById("dateCompleted").value,
-      sqlPublication: document.getElementById("sqlPublication").value,
-      cloudPublication: document.getElementById("cloudPublication").value,
-      developer: document.getElementById("developer").value,
+    const chart = {
+      title: document.getElementById("chartTitle").value,
+      chartType: document.getElementById("chartType").value,
+      description: document.getElementById("description").value,
+      chartStatus: document.getElementById("chartStatus").value,
+      remarks: document.getElementById("remarks").value,
       updatedAt: new Date().toISOString(),
       deptId: deptId
     };
 
     try {
-      if(editId) await db.collection("reports").doc(editId).update(report);
-      else await db.collection("reports").add(report);
+      if (editId) await db.collection("charts").doc(editId).update(chart);
+      else await db.collection("charts").add(chart);
       dataModal.style.display = "none";
       dataForm.reset();
       editId = null;
-      loadReports();
-    } catch(err) {
+      loadCharts();
+    } catch (err) {
       console.error(err);
       alert("Save failed");
     }
   });
 
-  // -------------------- Back Button --------------------
   document.getElementById("backBtn").addEventListener("click", () => window.history.back());
-
-  // Initial load
-  loadReports();
+  loadCharts();
 });

@@ -22,6 +22,7 @@ async function loadDashboard() {
   try {
     const deptSnap = await db.collection("departments").get();
     const reportSnap = await db.collection("reports").get();
+    const chartsSnap = await db.collection("charts").get();
     const licenseSnap = await db.collection("licenses").get();
 
     // 🧮 Count how many departments have Published dashboard
@@ -32,6 +33,7 @@ async function loadDashboard() {
 
     document.getElementById("totalDepartments").innerText = publishedCount;
     document.getElementById("totalReports").innerText = reportSnap.size;
+    document.getElementById("totalCharts").innerText = chartsSnap.size;
     document.getElementById("totalLicenses").innerText = licensedCount;
   } catch (err) {
     console.error("Error loading dashboard:", err);

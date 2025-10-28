@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const row = `
           <tr>
             <td>${r.title || r.reportTitle || ""}</td>
-            <td>${r.status || ""}</td>
+            <td>${r.dataStatus || ""}</td>
             <td>${r.dateStarted || ""}</td>
             <td>${r.missingData || ""}</td>
             <td>${r.mergeTables || ""}</td>
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <td>${r.dateCompleted || ""}</td>
             <td>${r.sqlPublication || ""}</td>
             <td>${r.cloudPublication || ""}</td>
-            <td>${r.developer || ""}</td>
+            <td>${r.personnel || ""}</td>
             <td>
               <button class="edit-btn" data-id="${doc.id}">✏️</button>
               <button class="delete-btn" data-id="${doc.id}">🗑️</button>
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         const r = docSnap.data();
 
         document.getElementById("reportTitle").value = r.title || r.reportTitle || "";
-        document.getElementById("status").value = r.status || "";
+        document.getElementById("dataStatus").value = r.dataStatus || "";
         document.getElementById("dateStarted").value = r.dateStarted || "";
         document.getElementById("missingData").value = r.missingData || "";
         document.getElementById("mergeTables").value = r.mergeTables || "";
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("dateCompleted").value = r.dateCompleted || "";
         document.getElementById("sqlPublication").value = r.sqlPublication || "";
         document.getElementById("cloudPublication").value = r.cloudPublication || "";
-        document.getElementById("developer").value = r.developer || "";
+        document.getElementById("personnel").value = r.personnel || "";
 
         ["dataValidation","dataWrangled","duplicate","typoErrors","checkFormat","readyForDashboard"]
           .forEach(field => {
@@ -140,7 +140,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     e.preventDefault();
     const report = {
       title: document.getElementById("reportTitle").value,
-      status: document.getElementById("status").value,
+      dataStatus: document.getElementById("dataStatus").value,
       dateStarted: document.getElementById("dateStarted").value,
       missingData: document.getElementById("missingData").value,
       mergeTables: document.getElementById("mergeTables").value,
@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       dateCompleted: document.getElementById("dateCompleted").value,
       sqlPublication: document.getElementById("sqlPublication").value,
       cloudPublication: document.getElementById("cloudPublication").value,
-      developer: document.getElementById("developer").value,
+      personnel: document.getElementById("personnel").value,
       updatedAt: new Date().toISOString(),
       deptId: deptId
     };

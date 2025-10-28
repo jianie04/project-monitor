@@ -3,53 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Data Quality Assurance</title>
+  <title>Dashboard QA</title>
   <link rel="stylesheet" href="dashboard-qa.css" />
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
 </head>
 <body>
   <header>Dashboard Quality Assurance</header>
-  <div id="reportsContainer"></div>
-  <!-- <div class="view-reports-container">
-  <button id="backBtn" class="add-btn" style="margin-bottom: 12px;">← Back to Reports</button>
-  <h1 id="deptNameHeader"></h1>
-  <h2 id="reportNameHeader"></h2>
-</div> -->
 
-<div class="dataqa-container">
-  <div class="header-container">
-    <button id="backBtn">← Back to Reports</button>
-    <div class="report-header">
-      <h1 id="deptNameHeader">Loading Department...</h1>
-      <!-- <h2 id="reportNameHeader">Report Title</h2> -->
-    </div>
+  <div class="container">
+
+          <!-- Unified Header Toolbar -->
+          <div class="toolbar">
+            <button id="backBtn" class="btn-back">
+              <i class="fa-solid fa-arrow-left"></i> Back to Reports
+            </button>
+
+            <div class="dept-header">
+              <h2 id="deptNameHeader">Loading Department...</h2>
+            </div>
+
+            <div class="dept-actions">
+              <button id="addReportBtn" class="add-btn" title="Add Data Check">
+                <i class="fa-solid fa-plus-circle"></i> Dashboard Check
+              </button>
+            </div>
+          </div>
+
+    <!-- Reports Container -->
+    <div id="reportsContainer" class="reports-container"></div>
   </div>
+</body>
 
-  <!-- Your table, QA section, forms, everything else goes here -->
-</div>
-
-
-  <div class="toolbar">
-    <button id="addReportBtn" class="add-btn">+Dashboard Check</button>
-  </div>
-
-  <table id="qaTable">
+<table id="qaTable">
   <thead>
     <tr>
       <th>Report Title</th>
-      <th>Status</th>
+      <th>Dashboard Status</th>
+      <th>Page</th>
       <th>Date Started</th>
-      <th>Missing Data</th>
-      <th>Merge Tables</th>
-      <th>Calculated Fields</th>
-      <th>Validation</th>
-      <th>Data Wrangled</th>
-      <th>Duplicate</th>
-      <th>Typo Errors</th>
-      <th>Check Format</th>
-      <th>Ready for Dashboard</th>
+      <th>Layout Check</th>
+      <th>Layout Size</th>
+      <th>Spacing</th>
+      <th>Colors</th>
+      <th>Fonts</th>
+      <th>Unused Formulas Removed?</th>
       <th>Date Completed</th>
-      <th>SQL Publication</th>
-      <th>Cloud Publication</th>
       <th>Developer</th>
       <th>Actions</th>
     </tr>
@@ -57,99 +58,86 @@
   <tbody id="qaTableBody"></tbody>
 </table>
 
-      <!-- <tr><td colspan="14" class="no-data">Not yet checked</td></tr> -->
-    </tbody>
-  </table>
-
- <!-- ADD NEW DATA MODAL -->
+<!-- MODAL -->
 <div id="dataModal" class="modal">
   <div class="modal-content">
     <span class="close" id="closeModalBtn">&times;</span>
-    <h2>Data Quality Check</h2>
+    <h2>Dashboard QA Check</h2>
 
     <form id="dataForm">
       <div class="form-grid">
-        <!-- LEFT COLUMN -->
         <div class="form-column">
           <label>Report Title:</label>
           <input type="text" id="reportTitle" />
 
-          <label>Status:</label>
-          <select id="status">
-            <option value="">Select Status</option>
-            <option value="New">New</option>
-            <option value="Append">Append</option>
-            <option value="Reconstruction">Reconstruction</option>
+          <label>Dashboard Status:</label>
+          <select id="dbStatus">
+            <option value="">Select Dashboard Status</option>
+            <option value="For Published">For Published</option>
+            <option value="Published">Published</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Not Yet Started">Not Yet Started</option>
+          </select>
+
+          <label>Page:</label>
+          <select id="page">
+            <option value="">Select Page</option>
+            <option value="Department">Department</option>
+            <option value="Sectoral">Sectoral</option>
           </select>
 
           <label>Date Started:</label>
           <input type="date" id="dateStarted" />
 
-          <label>Missing Data:</label>
-          <input type="text" id="missingData" />
-
-          <label>Merge Tables:</label>
-          <input type="text" id="mergeTables" />
-
-          <label>Calculated Fields:</label>
-          <input type="text" id="calculatedFields" />
+          <label>Developer:</label>
+          <input type="text" id="developer" />
         </div>
 
-        <!-- RIGHT COLUMN -->
         <div class="form-column">
           <fieldset class="qa-section">
-            <legend>Data Quality Checks</legend>
+            <legend>Dashboard Layout Checks</legend>
 
             <div class="qa-grid">
               <div class="qa-item">
-                <span>Data Validation:</span>
-                <label><input type="radio" name="dataValidation" value="Yes" /> Yes</label>
-                <label><input type="radio" name="dataValidation" value="No" /> No</label>
+                <span>Layout Check:</span>
+                <label><input type="radio" name="layoutCheck" value="Yes" /> Yes</label>
+                <label><input type="radio" name="layoutCheck" value="No" /> No</label>
               </div>
 
               <div class="qa-item">
-                <span>Data Wrangled:</span>
-                <label><input type="radio" name="dataWrangled" value="Yes" /> Yes</label>
-                <label><input type="radio" name="dataWrangled" value="No" /> No</label>
+                <span>Layout Size:</span>
+                <label><input type="radio" name="layoutSize" value="Yes" /> Yes</label>
+                <label><input type="radio" name="layoutSize" value="No" /> No</label>
               </div>
 
               <div class="qa-item">
-                <span>Duplicate:</span>
-                <label><input type="radio" name="duplicate" value="Yes" /> Yes</label>
-                <label><input type="radio" name="duplicate" value="No" /> No</label>
+                <span>Spacing:</span>
+                <label><input type="radio" name="spacing" value="Yes" /> Yes</label>
+                <label><input type="radio" name="spacing" value="No" /> No</label>
               </div>
 
               <div class="qa-item">
-                <span>Typo Errors:</span>
-                <label><input type="radio" name="typoErrors" value="Yes" /> Yes</label>
-                <label><input type="radio" name="typoErrors" value="No" /> No</label>
+                <span>Colors:</span>
+                <label><input type="radio" name="colors" value="Yes" /> Yes</label>
+                <label><input type="radio" name="colors" value="No" /> No</label>
               </div>
 
               <div class="qa-item">
-                <span>Check Format:</span>
-                <label><input type="radio" name="checkFormat" value="Yes" /> Yes</label>
-                <label><input type="radio" name="checkFormat" value="No" /> No</label>
+                <span>Fonts:</span>
+                <label><input type="radio" name="fonts" value="Yes" /> Yes</label>
+                <label><input type="radio" name="fonts" value="No" /> No</label>
               </div>
 
               <div class="qa-item">
-                <span>Ready for Dashboard:</span>
-                <label><input type="radio" name="readyForDashboard" value="Yes" /> Yes</label>
-                <label><input type="radio" name="readyForDashboard" value="No" /> No</label>
+                <span>Unused Formulas Removed?</span>
+                <label><input type="radio" name="unusedFormulasRemoved" value="Yes" /> Yes</label>
+                <label><input type="radio" name="unusedFormulasRemoved" value="No" /> No</label>
               </div>
-            </div>
-          </fieldset>
 
           <label>Date Completed:</label>
           <input type="date" id="dateCompleted" />
-
-          <label>SQL Publication:</label>
-          <input type="text" id="sqlPublication" />
-
-          <label>Cloud Publication:</label>
-          <input type="text" id="cloudPublication" />
-
-          <label>Developer:</label>
-          <input type="text" id="developer" />
+            </div>
+          </fieldset>
         </div>
       </div>
 

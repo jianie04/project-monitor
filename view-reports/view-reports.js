@@ -74,8 +74,6 @@ async function loadReports() {
         <span class="action-icons">
           <button title="Edit" data-id="${doc.id}"><i class="fa-solid fa-edit"></i></button>
           <button title="Delete" data-id="${doc.id}"><i class="fa-solid fa-trash"></i></button>
-          <button title="Data QA" data-id="${doc.id}"><i class="fa-solid fa-database"></i></button>
-          <button title="Add Chart" data-id="${doc.id}"><i class="fa-solid fa-chart-bar"></i></button>
         </span>
       </td>`;
     reportsTable.appendChild(row);

@@ -5,38 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Data Quality Assurance</title>
   <link rel="stylesheet" href="dataqa.css" />
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
 </head>
 <body>
   <header>Data Quality Assurance</header>
-  <div id="reportsContainer"></div>
-  <!-- <div class="view-reports-container">
-  <button id="backBtn" class="add-btn" style="margin-bottom: 12px;">← Back to Reports</button>
-  <h1 id="deptNameHeader"></h1>
-  <h2 id="reportNameHeader"></h2>
-</div> -->
 
-<div class="dataqa-container">
-  <div class="header-container">
-    <button id="backBtn">← Back to Reports</button>
-    <div class="report-header">
-      <h1 id="deptNameHeader">Loading Department...</h1>
-      <!-- <h2 id="reportNameHeader">Report Title</h2> -->
-    </div>
+  <div class="container">
+
+          <!-- Unified Header Toolbar -->
+          <div class="toolbar">
+            <button id="backBtn" class="btn-back">
+              <i class="fa-solid fa-arrow-left"></i> Back to Reports
+            </button>
+
+            <div class="dept-header">
+              <h2 id="deptNameHeader">Loading Department...</h2>
+            </div>
+
+            <div class="dept-actions">
+              <button id="addReportBtn" class="add-btn" title="Add Data Check">
+                <i class="fa-solid fa-plus-circle"></i> Data Check
+              </button>
+            </div>
+          </div>
+
+    <!-- Reports Container -->
+    <div id="reportsContainer" class="reports-container"></div>
   </div>
+</body>
 
-  <!-- Your table, QA section, forms, everything else goes here -->
-</div>
-
-
-  <div class="toolbar">
-    <button id="addReportBtn" class="add-btn">+Data Check</button>
-  </div>
 
   <table id="qaTable">
   <thead>
     <tr>
       <th>Report Title</th>
-      <th>Status</th>
+      <th>Data Status</th>
       <th>Date Started</th>
       <th>Missing Data</th>
       <th>Merge Tables</th>
@@ -50,7 +56,7 @@
       <th>Date Completed</th>
       <th>SQL Publication</th>
       <th>Cloud Publication</th>
-      <th>Developer</th>
+      <th>Personnel</th>
       <th>Actions</th>
     </tr>
   </thead>
@@ -74,9 +80,9 @@
           <label>Report Title:</label>
           <input type="text" id="reportTitle" />
 
-          <label>Status:</label>
-          <select id="status">
-            <option value="">Select Status</option>
+          <label>Data Status:</label>
+          <select id="dataStatus">
+            <option value="">Select Data Status</option>
             <option value="New">New</option>
             <option value="Append">Append</option>
             <option value="Reconstruction">Reconstruction</option>
@@ -148,8 +154,8 @@
           <label>Cloud Publication:</label>
           <input type="text" id="cloudPublication" />
 
-          <label>Developer:</label>
-          <input type="text" id="developer" />
+          <label>Personnel:</label>
+          <input type="text" id="personnel" />
         </div>
       </div>
 
