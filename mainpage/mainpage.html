@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Monitoring System | Main Page</title>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="mainpage.css">
+
+  <!-- FullCalendar CSS & JS -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/main.min.css' rel='stylesheet' />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/main.min.js'></script>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>QC CENTRALIZED MONITORING SYSTEM</h2>
+
+  <div class="user-info">
+    <p id="loggedUsername">Loading...</p>
+  </div>
+
+  <button onclick="location.href='mainpage.html'">🏠 Main Page</button>
+  <button onclick="location.href='../department/department.html'">🏢 Departments</button>
+  <button onclick="location.href='../reports/reports.html'">📄 Reports</button>
+  <button onclick="location.href='../meetings/meetings.html'">🗓 Meetings</button>
+  <button onclick="location.href='../users/users.html'">👤 Users</button>
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- TOTAL CARDS -->
+  <div class="total-container">
+    <div class="total-card">
+      <h3>Total Departments with Published Dashboard</h3>
+      <p id="totalDepartments">0</p>
+    </div>
+    <div class="total-card">
+      <h3>Total Reports</h3>
+      <p id="totalReports">0</p>
+    </div>
+    <div class="total-card">
+      <h3>Total Charts</h3>
+      <p id="totalCharts">0</p>
+    </div>
+    <div class="total-card">
+      <h3>Total Departments with Licenses</h3>
+      <p id="totalLicenses">0</p>
+    </div>
+  </div>
+
+  <!-- SUMMARY + CALENDAR -->
+  <div class="main-sections">
+
+    <!-- Summary Table -->
+    <div class="summary-section">
+      <h2>Summary of Reports</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Report Title</th>
+              <th>Department</th>
+              <th>Progress</th>
+            </tr>
+          </thead>
+          <tbody id="summaryTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="calendar-section">
+      <h2>Monthly Calendar</h2>
+      <div id="calendar"></div>
+      <ul id="meetingList"></ul> <!-- prevents null errors -->
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="eventModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3 id="modalTitle">Add Event</h3>
+    <label>Event Title:</label>
+    <input type="text" id="eventTitle" />
+    <label>Date:</label>
+    <input type="date" id="eventDate" />
+    <button id="saveEvent">Save</button>
+  </div>
+</div>
+
+<script src="mainpage.js"></script>
+</body>
+</html>
