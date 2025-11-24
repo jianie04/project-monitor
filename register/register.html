@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | QC Centralized Dashboard Monitoring System</title>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+  <link rel="stylesheet" href="register.css">
+</head>
+<body>
+
+  <div class="register-container">
+    <h2>Create Account</h2>
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+    <button id="registerBtn">Register</button>
+
+    <p>Already have an account?
+      <a href="../login/login.html">Login</a>
+    </p>
+
+    <p id="message"></p>
+  </div>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAfWLaoabC5U8vzFQyIOScZFLKPDoZh3cE",
+      authDomain: "project-monitor-f6fb2.firebaseapp.com",
+      projectId: "project-monitor-f6fb2",
+      storageBucket: "project-monitor-f6fb2.appspot.com",
+      messagingSenderId: "789686813125",
+      appId: "1:789686813125:web:d931d3b0ae13e674248bac"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <script src="register.js"></script>
+</body>
+</html>

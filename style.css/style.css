@@ -319,4 +319,15 @@ th {
 }
 
 
-
+/* .logoutBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+} */

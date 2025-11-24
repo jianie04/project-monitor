@@ -14,6 +14,35 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 console.log("✅ Firebase connected");
 
+// Check auth state
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    console.log("User logged in:", user.email);
+  } else {
+    console.log("No user logged in, redirecting...");
+    window.location.href = "/login/login.html"; // or relative path
+  }
+});
+
+// =======================================================
+// ✅ AUTHENTICATION PROTECTION
+// =======================================================
+firebase.auth().onAuthStateChanged(user => {
+  if (!user) {
+    // User is not logged in, redirect to login page
+    window.location.href = "/login/login.html";
+  }
+});
+
+// Logout button
+const logoutBtn = document.getElementById("logoutBtn");
+logoutBtn.addEventListener("click", () => {
+  firebase.auth().signOut()
+    .then(() => {
+      window.location.href = "/login/login.html";
+    })
+    .catch(err => console.error("Logout failed:", err));
+});
 
 // =======================================================
 // ✅ DASHBOARD LOADERS (UPDATED)
