@@ -14,15 +14,15 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 console.log("✅ Firebase connected");
 
-// Check auth state
-firebase.auth().onAuthStateChanged(user => {
-  if (user) {
-    console.log("User logged in:", user.email);
-  } else {
-    console.log("No user logged in, redirecting...");
-    window.location.href = "/login/login.html"; // or relative path
-  }
-});
+// // Check auth state
+// firebase.auth().onAuthStateChanged(user => {
+//   if (user) {
+//     console.log("User logged in:", user.email);
+//   } else {
+//     console.log("No user logged in, redirecting...");
+//     window.location.href = "/login/login.html"; // or relative path
+//   }
+// });
 
 // =======================================================
 // ✅ AUTHENTICATION PROTECTION
