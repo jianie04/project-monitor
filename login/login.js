@@ -43,7 +43,10 @@ document.getElementById("loginBtn").addEventListener("click", () => {
 
 // Automatically redirect logged-in users to dashboard
 firebase.auth().onAuthStateChanged(user => {
+  const message = document.getElementById("message");
+
   if (user) {
-    window.location.href = "../index.html";
+    message.innerHTML = `🔒 You are already logged in. <br><a href="../index.html" style="color:#004aad; font-weight:600;">Go to Dashboard</a>`;
   }
 });
+
