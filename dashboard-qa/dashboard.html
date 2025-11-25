@@ -6,7 +6,7 @@
   <title>Project Monitoring System | Main Page</title>
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="mainpage.css">
+  <link rel="stylesheet" href="dashboard.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 
@@ -28,7 +28,7 @@
     <p id="loggedUsername">Loading...</p>
   </div>
 
-<button onclick="location.href='mainpage.html'">
+<button onclick="location.href='../mainpage/mainpage.html'">
   <i class="fa-solid fa-house" style="color:white; margin-right:8px;"></i> Main Page
 </button>
 
@@ -76,32 +76,9 @@
 <!-- CONTENT -->
 <div class="content">
 
-  <!-- TOTAL CARDS -->
-  <div class="total-container">
-    <div class="total-card">
-      <h3>Total Departments with Published Dashboard</h3>
-      <p id="totalDepartments">0</p>
-    </div>
-    <div class="total-card">
-      <h3>Total Reports</h3>
-      <p id="totalReports">0</p>
-    </div>
-    <div class="total-card">
-      <h3>Total Charts</h3>
-      <p id="totalCharts">0</p>
-    </div>
-    <div class="total-card">
-      <h3>Total Departments with Licenses</h3>
-      <p id="totalLicenses">0</p>
-    </div>
-  </div>
-
-  <!-- SUMMARY + CALENDAR -->
-  <div class="main-sections">
-
     <!-- Summary Table -->
     <div class="summary-section">
-      <h2>Summary of Reports</h2>
+      <h2>DASHBOARD QUALITY ASSURANCE</h2>
       <div class="table-wrapper">
         <table>
           <thead>
@@ -116,31 +93,6 @@
       </div>
     </div>
 
-
-    
-    <!-- Calendar -->
-    <div class="calendar-section">
-      <h2>Calendar</h2>
-      <div id="calendar"></div>
-      <ul id="meetingList"></ul> <!-- prevents null errors -->
-    </div>
-
-  </div>
-</div>
-
-<!-- Modal -->
-<div id="eventModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3 id="modalTitle">Add Event</h3>
-    <label>Event Title:</label>
-    <input type="text" id="eventTitle" />
-    <label>Date:</label>
-    <input type="date" id="eventDate" />
-    <button id="saveEvent">Save</button>
-  </div>
-</div>
-
-<script src="mainpage.js"></script>
+<script src="dashboard.js"></script>
 </body>
 </html>

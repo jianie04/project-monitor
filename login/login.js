@@ -17,7 +17,7 @@ document.getElementById("loginBtn").addEventListener("click", () => {
     .then(() => {
       message.textContent = "✅ Login successful! Redirecting...";
       message.style.color = "green";
-      setTimeout(() => window.location.href = "../index.html", 1000);
+      setTimeout(() => window.location.href = "../mainpage/mainpage.html", 1000);
     })
     .catch((error) => {
       let errorMsg = error.message;
