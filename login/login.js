@@ -1,3 +1,13 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyAfWLaoabC5U8vzFQyIOScZFLKPDoZh3cE",
+  authDomain: "project-monitor-f6fb2.firebaseapp.com",
+  projectId: "project-monitor-f6fb2",
+  storageBucket: "project-monitor-f6fb2.appspot.com",
+  messagingSenderId: "789686813125",
+  appId: "1:789686813125:web:d931d3b0ae13e674248bac"
+  };
+  firebase.initializeApp(firebaseConfig);
+
 document.getElementById("loginBtn").addEventListener("click", () => {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value.trim();
